@@ -18,7 +18,7 @@ Không cần nhập token/API Key vào Railway Variables. Cấu hình được m
 
 ## Bot chạy thế nào
 
-- Kiểm tra mỗi 600 giây khi bot bật, không cần mở web.
+- Kiểm tra mỗi 600 giây khi bot bật, không cần mở web. Sau khi gửi báo cáo thành công, dừng gọi API đến 05:00 sáng ngày hôm sau theo giờ Việt Nam, rồi kiểm tra lại mỗi 10 phút. Thời gian tạm nghỉ lưu trong Volume nên restart/deploy không làm mất. Nút Kiểm tra ngay cũng tôn trọng thời gian tạm nghỉ. Nếu gửi lỗi thì tiếp tục thử sau 10 phút.
 - Tìm ngày đặt hàng mới nhất có dữ liệu trong 30 ngày gần nhất, theo giờ Việt Nam. Ví dụ 31/10 mới có dữ liệu 30/10 thì gửi báo cáo **30/10**.
 - Lần đầu chạy phiên bản này gửi ngày dữ liệu mới nhất. Sau đó chỉ báo ngày mới hơn ngày đã báo; nếu bỏ lỡ nhiều ngày, lần lượt kiểm tra và gửi từng ngày có đơn.
 - Báo cáo gồm tổng đơn, đơn huỷ, đơn không huỷ, GMV không huỷ và hoa hồng ước tính sau MCN. Không gửi 0 đơn ngay sau nửa đêm; không gửi lặp khi ngày dữ liệu chưa thay đổi.
