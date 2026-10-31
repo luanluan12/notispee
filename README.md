@@ -18,14 +18,13 @@ Không cần nhập token/API Key vào Railway Variables. Cấu hình được m
 
 ## Bot chạy thế nào
 
-- Kiểm tra lúc service khởi động và mỗi 600 giây, cả ngày theo giờ Việt Nam, không cần mở trình duyệt.
-- Bot đang tắt hoặc chưa cấu hình: không gửi.
-- Lần kiểm tra thành công đầu tiên mỗi ngày gửi báo cáo, **kể cả 0 đơn**: đơn không huỷ, GMV không huỷ, hoa hồng sau MCN, lượt click, tỷ lệ chuyển đổi.
-- **Một báo cáo/ngày.** Sau khi báo 0 đơn, đơn phát sinh thêm cùng ngày không được báo tiếp. Đây là số liệu tại thời điểm kiểm tra, không phải chốt cuối ngày.
-- Lỗi API/Telegram: thử lại lượt sau, không đánh dấu đã gửi. Có timeout 30 giây. Kết quả nền gần nhất hiện trên web khi tải lại; Railway Logs có `background_check`.
-- Shopee ghi nhận trễ 24–48 giờ. Bot chỉ xem ngày đặt hàng hôm nay, không báo bù đơn ngày trước.
-- Khi Telegram nhận tin nhưng mất kết nối trước khi server ghi trạng thái, có thể có tin trùng ở lần thử lại. Chỉ chạy một bản với cùng cấu hình.
-- Không xoá Volume; sao lưu Volume nếu cần bảo vệ cấu hình và trạng thái đã gửi.
+- Kiểm tra mỗi 600 giây khi bot bật, không cần mở web.
+- Tìm ngày đặt hàng mới nhất có dữ liệu trong 30 ngày gần nhất, theo giờ Việt Nam. Ví dụ 31/10 mới có dữ liệu 30/10 thì gửi báo cáo **30/10**.
+- Lần đầu chạy phiên bản này gửi ngày dữ liệu mới nhất. Sau đó chỉ báo ngày mới hơn ngày đã báo; nếu bỏ lỡ nhiều ngày, lần lượt kiểm tra và gửi từng ngày có đơn.
+- Báo cáo gồm tổng đơn, đơn huỷ, đơn không huỷ, GMV không huỷ và hoa hồng ước tính sau MCN. Không gửi 0 đơn ngay sau nửa đêm; không gửi lặp khi ngày dữ liệu chưa thay đổi.
+- API không có cờ ngày đã chốt hoặc ngày 0 đơn. Bot dùng ngày đặt hàng mới nhất có đơn làm tín hiệu phát hiện, không khẳng định số liệu cuối cùng. Thay đổi số liệu trong ngày đã báo không kích hoạt tin mới.
+- Trạng thái theo ngày dữ liệu lưu trong Volume, tách khỏi trạng thái cũ theo ngày kiểm tra. Nâng phiên bản không mất API Key, token hoặc trạng thái bật/tắt.
+- Lỗi gửi tin không đánh dấu đã báo; thử lại lượt sau. Kết nối Telegram đứt sau khi nhận tin có thể gây gửi lặp ở lần thử lại.
 
 ## Chạy local
 
