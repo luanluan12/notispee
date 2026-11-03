@@ -18,13 +18,12 @@ Không cần nhập token/API Key vào Railway Variables. Cấu hình được m
 
 ## Bot chạy thế nào
 
-- Kiểm tra mỗi 600 giây khi bot bật, không cần mở web. Sau khi gửi báo cáo thành công, dừng gọi API đến 05:00 sáng ngày hôm sau theo giờ Việt Nam, rồi kiểm tra lại mỗi 10 phút. Thời gian tạm nghỉ lưu trong Volume nên restart/deploy không làm mất. Nút Kiểm tra ngay cũng tôn trọng thời gian tạm nghỉ. Nếu gửi lỗi thì tiếp tục thử sau 10 phút.
-- Tìm ngày đặt hàng mới nhất có dữ liệu trong 30 ngày gần nhất, theo giờ Việt Nam. Ví dụ 31/10 mới có dữ liệu 30/10 thì gửi báo cáo **30/10**.
-- Mốc bắt đầu là ngày dữ liệu 31/10/2026; chỉ bắt đầu gửi từ 05:00 ngày 01/11/2026 theo giờ Việt Nam. Không gửi lịch sử cũ và không gửi dữ liệu của ngày hiện tại. Khi dữ liệu 31/10 xuất hiện mới báo, nếu trễ thì tiếp tục đợi. Mốc này dùng cho cả lần đầu và nâng cấp, không cần xoá Volume. Có thể đổi bằng START_DATA_DAY (YYYY-MM-DD). Sau đó báo ngày dữ liệu mới hơn mốc đã gửi.
-- Báo cáo gồm tổng đơn, đơn huỷ, đơn không huỷ, GMV không huỷ và hoa hồng ước tính sau MCN. Không gửi 0 đơn ngay sau nửa đêm; không gửi lặp khi ngày dữ liệu chưa thay đổi.
-- API không có cờ ngày đã chốt hoặc ngày 0 đơn. Bot dùng ngày đặt hàng mới nhất có đơn làm tín hiệu phát hiện, không khẳng định số liệu cuối cùng. Thay đổi số liệu trong ngày đã báo không kích hoạt tin mới.
-- Trạng thái theo ngày dữ liệu lưu trong Volume, tách khỏi trạng thái cũ theo ngày kiểm tra. Nâng phiên bản không mất API Key, token hoặc trạng thái bật/tắt.
-- Lỗi gửi tin không đánh dấu đã báo; thử lại lượt sau. Kết nối Telegram đứt sau khi nhận tin có thể gây gửi lặp ở lần thử lại.
+- Khi bot bật, từ 05:00 mỗi sáng theo giờ Việt Nam gửi báo cáo ngày hôm trước, **kể cả 0 đơn**. Không cần mở web. Khởi động trễ thì gửi ở lượt kiểm tra tiếp theo.
+- Báo cáo gồm tổng đơn, đơn huỷ, đơn không huỷ, GMV không huỷ và hoa hồng sau MCN.
+- Gửi thành công: lưu trạng thái vào Volume và nghỉ đến 05:00 hôm sau. Không gửi lặp khi restart/deploy. Nút Kiểm tra ngay cũng tôn trọng giờ nghỉ.
+- API/Telegram lỗi: không ghi đã gửi, thử lại sau 10 phút. Không biến lỗi API thành báo cáo 0.
+- **0 đơn là số liệu API tại thời điểm kiểm tra, không chứng minh ngày đã chốt.** Shopee có thể đồng bộ trễ; bản này không gửi bổ sung khi số liệu thay đổi sau báo cáo.
+- Bỏ qua lịch sử trước 31/10/2026; mốc có thể đổi bằng START_DATA_DAY. Không tự gửi bù nhiều ngày nếu service ngừng chạy.
 
 ## Chạy local
 
