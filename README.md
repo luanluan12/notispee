@@ -18,11 +18,11 @@ Không cần nhập token/API Key vào Railway Variables. Cấu hình được m
 
 ## Bot chạy thế nào
 
-- Khi bot bật, từ 05:00 mỗi sáng theo giờ Việt Nam kiểm tra dữ liệu ngày hôm trước mỗi 10 phút; gửi báo cáo khi có dữ liệu đơn. Không cần mở web. Khởi động trễ thì gửi ở lượt kiểm tra tiếp theo.
+- Khi bot bật, từ 05:00 mỗi sáng theo giờ Việt Nam gửi số liệu API hiện có của ngày hôm trước, **kể cả 0 đơn**. Không cần mở web. Khởi động trễ thì gửi ở lượt kiểm tra tiếp theo.
 - Báo cáo gồm tổng đơn, đơn huỷ, đơn không huỷ, GMV không huỷ và hoa hồng sau MCN.
 - Gửi thành công: lưu trạng thái vào Volume và nghỉ đến 05:00 hôm sau. Không gửi lặp khi restart/deploy. Nút Kiểm tra ngay cũng tôn trọng giờ nghỉ.
 - API/Telegram lỗi: không ghi đã gửi, thử lại sau 10 phút. Không biến lỗi API thành báo cáo 0.
-- **Giới hạn chưa giải quyết:** API AddLiveTag không có tín hiệu xác nhận đã đồng bộ ngày 0 đơn. Kết quả 0 được giữ ở trạng thái awaiting_data, không gửi hay đánh dấu hoàn thành. Muốn báo 0 đúng lúc cần nguồn xác nhận đợt đồng bộ từ nhà cung cấp. Bản này không gửi bổ sung sau báo cáo.
+- **Người dùng chấp nhận số liệu API tại thời điểm kiểm tra:** 0 đơn có thể do đồng bộ trễ, không khẳng định số chốt cuối ngày. Gửi báo cáo một lần, không gửi bổ sung khi số liệu thay đổi sau đó.
 - Bỏ qua lịch sử trước 31/10/2026; mốc có thể đổi bằng START_DATA_DAY. Không tự gửi bù nhiều ngày nếu service ngừng chạy.
 
 ## Chạy local
